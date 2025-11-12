@@ -1,117 +1,149 @@
- # 🔎 TRUTHLENS
-_AI-Powered Real-Time Fact Checker_
+# 📰 Fake News Detection
 
-An AI-powered system that instantly verifies facts and detects fake news
+A fact-checking application built with FastAPI, Google Gemini API, and SerpAPI.
+It accepts a claim, fetches live evidence from the web, and processes it for analysis.
+Gemini then evaluates the context to return a verdict with reasoning, confidence score, and supporting evidence.
+---
+
+##  Features
+- Accepts a claim as input (via API or frontend).  
+- Fetches live web search results using **SerpAPI**.  
+- Cleans and normalizes the claim text.  
+- Passes evidence snippets into **Gemini 1.5 Flash** for structured reasoning.  
+- Returns a structured verdict:
+
+Final Verdict: REAL / FAKE / UNKNOWN
+Score: Confidence (0–100)
+Reasoning: Explanation of why
+Evidence: Context snippets
+Warnings: Weak/contradictory info if any
 
 ---
 
-## 📖 Project Description
+##  Project Structure
+```text
+.
+├── main2.py                # FastAPI backend with fact-check pipeline  
+├── requirements.txt       # Python dependencies  
+├── landing_page/          # (Optional) UI assets / screenshots                                                                          ---
+├── search_query_result/   # Stored snippets/screenshots from search  
+└── README.md              # Documentation  
+```
+### 1. Clone the repository
+```
+git clone https://github.com/<your-username>/fake-news-detection.git
+cd fake-news-detection
+```
+### 2. Create a virtual environment
+```
+python -m venv .venv
+```
+### 3. Activate the virtual environment
+```
+On Windows
 
-✨ **Problem Statement:**  
-Manual fact-checking is too slow to keep up with the viral spread of misinformation. While automated detectors exist, they often lack context, nuance, and transparency, leaving users with verdicts but no explanation. The challenge is to build a system that enables individuals to quickly verify whether online news is real or fake in real time, with evidence and reasoning.
+.venv\Scripts\activate
 
-💡 **Proposed Solution:**  
-Our project verifies textual claims in real-time by combining:  
-- **SerpAPI** for retrieving live web evidence.  
-- **Gemini 2.5 Pro** for structured reasoning.  
-- **FastAPI backend** for claim preprocessing and orchestration.  
-- **Angular frontend** for a simple, interactive interface.  
 
-The system outputs:  
-- Final Verdict (REAL / FAKE / UNKNOWN)  
-- Confidence Score (0–100)  
-- Reasoning (explanation of result)  
-- Evidence (supporting snippets)  
-- Warnings (weak or contradictory context)  
+On macOS/Linux
 
-🎯 **Target Users / Use Cases:**  
-- Journalists verifying breaking news.  
-- Social media platforms moderating misinformation.  
-- Students and researchers validating claims.  
-- Citizens checking suspicious news or viral content.  
+source .venv/bin/activate
+```
+### 4. Install dependencies
+```
+pip install -r requirements.txt
+```
 
----
+### 5. Create a .env file
+```
+GEMINI_API_KEY=your-gemini-api-key
+SERPAPI_API_KEY=your-serpapi-api-key
 
-## 🔬 Methodology
+```
 
-- **Research & Ideation** – Studied misinformation, NLP techniques, and APIs.  
-- **Design** – Created system architecture (Angular frontend + FastAPI backend + external APIs).  
-- **Develop** – Implemented claim ingestion, context retrieval, reasoning, and structured output.  
-- **Test** – Unit and integration testing with real/fake claims.  
-- **Deploy** – Local deployment using FastAPI + Angular.  
-- **Future Scope** – Multilingual support, caching, multiple APIs (Bing, NewsAPI), and analytics dashboard.  
+### 6. Run the backend
+```
+uvicorn main2:app --reload
 
----
+```
+### API will be live at:
+```
+http://127.0.0.1:8000
 
-## 👥 Team Details
+```
 
-**Team Name:** Neural Nova
+ ### Example Usage
+ ```
+curl -X POST "http://127.0.0.1:8000/fact-check" \
+-H "Content-Type: application/json" \
+-d '{"claim": "The Eiffel Tower is in Paris"}'
 
-| Name           | Role            | Email               |
-|----------------|-----------------|---------------------|
-| Sana Tasneem   | Team Lead       | sanatasneem33@gmail.com|
-| Yasmeen Begum  | Backend Dev     |yasmee11189@gmail.com|
-| Amtul Jameel   | Frontend Dev    | amtuljameel04@gmail.com |
+```
+ ### Sample Response
+ ```
+{
+  "verdict": "REAL",
+  "score": "95",
+  "reasoning": "Multiple sources confirm the Eiffel Tower is in Paris.",
+  "evidence": "- The Eiffel Tower is a landmark in Paris, France.",
+  "warnings": ""
+}
 
----
+```
+ 
+### API Endpoints
+POST /fact-check   → Takes a claim and returns a fact-check result
 
-## 🛠️ Technology Stack
+### Tech Stack
 
-- **Frontend:** Angular 16 (TypeScript, HTML5, SCSS)  
-- **Backend:** Python 3.11, FastAPI, Uvicorn  
-- **AI Model:** Gemini 2.5 Pro (Google Generative AI SDK)  
-- **Web Search API:** SerpAPI  
-- **Other Tools:** VS Code, Postman, Browser DevTools  
+-Python 3.10+
 
----
+-FastAPI (backend framework)
+
+-Google Gemini API (fact-check reasoning)
+
+-SerpAPI (live web search results)
+
+```
+##  Frontend Setup (Angular)
+
+### 1. Navigate to the frontend folder
+cd fact-chex
+
+```
+###  2.Install dependencies
+```
+npm install
+
+```
+## 3. Run the Angular app
+```
+ng serve
+
+```
+### The frontend will be live at: 
+http://localhost:4200
+
+### Backend Setup (FastAPI)
+Run the backend
+```
+uvicorn main2:app --reload
+```
+### The backend will be live at:
+```
+http://127.0.0.1:8000
+
+```
+
+### Connecting Frontend & Backend
+The Angular frontend (http://localhost:4200) sends requests to the FastAPI backend (http://127.0.0.1:8000/fact-check).
+
 
 ## 📹 Demonstration Video
 ▶️[Watch Demo](https://drive.google.com/file/d/1CddCdDRE2-49zwdhRz3UDObEY5QJ60ae/view?usp=sharing)
 
 ---
 
-## 🌐 Deployment
-
-This project has not been deployed online. To run locally:
-
-## 1. Clone the repository
-   ```
-   git clone https://github.com/<your-username>/Fake_News_Detection.git
-   cd Fake_News_Detection
-```
-   
-## 2. Create a virtual environment & install dependencies
-   
-```
-python -m venv .venv
-source .venv/bin/activate   # macOS/Linux
-.venv\Scripts\activate      # Windows
-pip install -r requirements.txt
-
-```
-
-## 3. Add API keys
-Create a .env file with:
-```
-GEMINI_API_KEY=your-gemini-api-key
-SERPAPI_API_KEY=your-serpapi-api-key
-```
-
-## 4. Run the backend
-```
-uvicorn main2:app --reload
-
-Backend will run at: http://127.0.0.1:8000
-```
-
-## 5. Run the frontend
-```
-cd fact-chex
-npm install
-ng serve
-
-Frontend will run at: http://localhost:4200
-```
 ## 📚 References
 
 1. Shu, K., Sliva, A., Wang, S., Tang, J., & Liu, H. (2017). Fake News Detection on Social Media: A Data Mining Perspective. ACM SIGKDD Explorations Newsletter, 19(1), 22-     36.
